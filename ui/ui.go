@@ -7,20 +7,24 @@ import (
 
 type UI struct {
     background Background
-    loading Loading
+    loading *Loading
 }
 
 func NewUI() *UI {
     return &UI{
         background: NewBackground(),
+        loading: NewLoading(),
     }
 }
 
-func (ui *UI) Update(state *state.State, time float32) {
-    ui.Draw(state, time)
+func (ui *UI) Update(st *state.State, time float32) {
+    if *st == state.Start {
+        ui.loading.Update(st, time)
+    }
+    ui.Draw(st, time)
 }
 
-func (ui *UI) Draw(state *state.State, time float32) {
+func (ui *UI) Draw(st *state.State, time float32) {
     ui.background.Draw()
-    ui.loading.Update(state, time)
+    ui.loading.Update(st, time)
 }

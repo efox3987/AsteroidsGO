@@ -32,8 +32,11 @@ func NewLoading() *Loading {
         ship: game.NewShip(),
     }
     l.ship.Position = rl.NewVector2(0, float32(rl.GetScreenHeight() / 2))
-    l.ship.Rotation = 90
-    l.ship.Velocity = rl.NewVector2(200, 0)
+    l.ship.Rotation = rl.Pi / 2
+    l.ship.Velocity = rl.NewVector2(float32(rl.GetScreenWidth())/LOAD_TIME/2, 0)
+    l.ship.MaxVelocity = 1e9
+    l.ship.StaticShip = true
+    l.ship.StaticFire = true
     return l
 }
   

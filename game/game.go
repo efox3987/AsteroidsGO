@@ -34,9 +34,7 @@ func (g *Game) Update() {
 
     switch g.State {
     case state.Start:
-        if rl.IsKeyPressed(rl.KeySpace) {
-            g.State = state.Play
-        }
+
     case state.Play:
         g.Ship.Update()
         //for _, b := range g.Bullets {
