@@ -22,7 +22,8 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.Black)
-        ui.Update()
+        ui.Update(&g.State, g.Time)
+        g.Update()
         
 		rl.EndDrawing()
 	}

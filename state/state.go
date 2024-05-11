@@ -5,6 +5,6 @@ type State int
 
 const (
     Start State = iota
-    Play
-    GameOver
+    Play State = iota
+    GameOver State = iota
 )

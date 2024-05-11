@@ -2,11 +2,12 @@ package ui
 
 import (
     //rl "github.com/gen2brain/raylib-go/raylib"
-    //"asteroids/state"
+    "asteroids/state"
 )
 
 type UI struct {
     background Background
+    loading Loading
 }
 
 func NewUI() *UI {
@@ -15,10 +16,11 @@ func NewUI() *UI {
     }
 }
 
-func (ui *UI) Update() {
-    ui.Draw()
+func (ui *UI) Update(state *state.State, time float32) {
+    ui.Draw(state, time)
 }
 
-func (ui *UI) Draw() {
+func (ui *UI) Draw(state *state.State, time float32) {
     ui.background.Draw()
+    ui.loading.Update(state, time)
 }
