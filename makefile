@@ -1,11 +1,8 @@
-default:
-	build
-	libs
-	run
+default: libs build run
 
 build:
 	@echo "Building..."
-	@go build -o bin/ ./cmd/...
+	@go build -o bin/ ./...
 
 libs:
 	@echo "Getting dependencies..."
@@ -15,3 +12,5 @@ libs:
 run:
 	@echo "Running..."
 	@./bin/$(shell basename $(CURDIR))
+
+
