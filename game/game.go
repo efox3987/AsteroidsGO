@@ -4,11 +4,11 @@ package game
 
 import (
     rl "github.com/gen2brain/raylib-go/raylib"
-    "asteroids/state"
+    . "asteroids/state"
 )
 
 type Game struct {
-    State state.State
+    State State
     Ship *Ship
     //Bullets []*Bullet
     //Asteroids []*Asteroid
@@ -19,7 +19,7 @@ type Game struct {
 // NewGame creates a new Game object with default values
 func NewGame() *Game {
     return &Game{
-        State: state.Start,
+        State: Start,
         Ship: NewShip(),
         //Bullets: []*Bullet{},
         //Asteroids: []*Asteroid{},
@@ -33,9 +33,13 @@ func (g *Game) Update() {
     g.Time += rl.GetFrameTime()
 
     switch g.State {
-    case state.Start:
-
-    case state.Play:
+    case Start:
+        // No game related updates here
+        break
+    case Menu:
+        // No game related updates here
+        break
+    case Play:
         g.Ship.Update()
         //for _, b := range g.Bullets {
         //    b.Update()
@@ -45,9 +49,9 @@ func (g *Game) Update() {
         //}
         //g.checkCollisions()
         //g.checkGameOver()
-    case state.GameOver:
+    case GameOver:
         if rl.IsKeyPressed(rl.KeySpace) {
-            g.State = state.Start
+            g.State = Start
             g.Score = 0
             g.Time = 0
             g.Ship = NewShip()

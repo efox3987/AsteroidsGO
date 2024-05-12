@@ -13,4 +13,10 @@ run:
 	@echo "Running..."
 	@./bin/$(shell basename $(CURDIR))
 
+clean:
+	@echo "Cleaning..."
+	@rm -rf bin/
+	@go clean
+
+all: clean default
 

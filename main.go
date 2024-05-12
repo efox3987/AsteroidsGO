@@ -12,6 +12,7 @@ func main() {
 	defer rl.CloseWindow()
 
 	rl.SetTargetFPS(60)
+    rl.SetConfigFlags(rl.FlagMsaa4xHint) // Anti-aliasing
     
     g := game.NewGame()
     g.State = state.Start
@@ -22,7 +23,7 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.Black)
-        ui.Update(&g.State, g.Time)
+        ui.Update(g) // UI relies on game variables
         g.Update()
         
 		rl.EndDrawing()

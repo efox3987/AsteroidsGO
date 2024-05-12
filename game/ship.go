@@ -15,18 +15,18 @@ type Ship struct {
     StaticFire bool // If true, the ship will always show fire
 }
 
-const SHIP_SCALE = 30
-const SHIP_ACCELERATION = 30
-const SHIP_FIRE_INTERVAL = 0.5
-const SHIP_DRAG = 20
+const SHIP_SCALE = 45 // Graphical scale to transform ship points to world points
+const SHIP_ACCELERATION = 600 // Acceleration of the ship
+const SHIP_FIRE_INTERVAL = 0.02 // Time between fire checks
+const SHIP_DRAG = 200
 
 // NewShip creates a new Ship object with default values
 func NewShip() *Ship {
     return &Ship{
         Position: rl.NewVector2(float32(rl.GetScreenWidth() / 2), float32(rl.GetScreenHeight() / 2)),
-        Dir: rl.NewVector2(0, 1),
+        Dir: rl.NewVector2(0, -1),
         Velocity: rl.NewVector2(0, 0),
-        MaxVelocity: 5,
+        MaxVelocity: 300,
         Rotation: 0,
         ShowFire: false,
         ShowFireTime: 0,
@@ -104,7 +104,7 @@ func (s *Ship) ProcessInputs() {
         }
     } else {
         // Slow the ship down if no acceleration
-        drag := rl.Vector2Scale(s.Velocity, SHIP_DRAG * rl.GetFrameTime()) 
+        drag := rl.Vector2Scale(rl.Vector2Normalize(s.Velocity), SHIP_DRAG * rl.GetFrameTime()) 
         s.Velocity = rl.Vector2Subtract(s.Velocity, drag)
 
         s.ShowFire = false
@@ -112,13 +112,15 @@ func (s *Ship) ProcessInputs() {
 
     // Ship rotation
     if rl.IsKeyDown(rl.KeyA) {
-        s.Rotation -= 5 * rl.GetFrameTime()
-        s.Dir = rl.Vector2Rotate(s.Dir, s.Rotation)
+        rot := -5 * rl.GetFrameTime()
+        s.Rotation += rot
+        s.Dir = rl.Vector2Rotate(s.Dir, rot)
     }
 
     if rl.IsKeyDown(rl.KeyD) {
-        s.Rotation += 5 * rl.GetFrameTime()
-        s.Dir = rl.Vector2Rotate(s.Dir, s.Rotation)
+        rot := 5 * rl.GetFrameTime()
+        s.Rotation += rot 
+        s.Dir = rl.Vector2Rotate(s.Dir, rot)
     }
 }
 
@@ -140,13 +142,10 @@ func (s *Ship) Draw() {
 
 // Transforms a point from the ship's local space to world space
 func (s *Ship) TransformPoint(i int) rl.Vector2 {
-    return rl.Vector2Add(
-        rl.Vector2Rotate(
-            rl.Vector2Scale(s.Points[i], SHIP_SCALE),
-            s.Rotation,
-        ),
-        s.Position,
-    )
+    result := rl.Vector2Rotate(s.Points[i], s.Rotation) 
+    result = rl.Vector2Scale(result, SHIP_SCALE)
+    result = rl.Vector2Add(result, s.Position)
+    return result
 }
 
 
