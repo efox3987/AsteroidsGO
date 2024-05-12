@@ -10,7 +10,7 @@ import (
 type Game struct {
     State State
     Ship *Ship
-    //Bullets []*Bullet
+    Bullets []*Bullet
     //Asteroids []*Asteroid
     Score int 
     Time float32
@@ -21,7 +21,7 @@ func NewGame() *Game {
     return &Game{
         State: Start,
         Ship: NewShip(),
-        //Bullets: []*Bullet{},
+        Bullets: []*Bullet{},
         //Asteroids: []*Asteroid{},
         Score: 0,
         Time: 0,
@@ -40,10 +40,11 @@ func (g *Game) Update() {
         // No game related updates here
         break
     case Play:
+        g.ProcessInputs()
         g.Ship.Update()
-        //for _, b := range g.Bullets {
-        //    b.Update()
-        //}
+        for _, b := range g.Bullets {
+            b.Update()
+        }
         //for _, a := range g.Asteroids {
         //    a.Update()
         //}
@@ -59,4 +60,17 @@ func (g *Game) Update() {
             //g.Asteroids = []*Asteroid{}
         }
     }
+}
+
+func (g *Game) ProcessInputs() {
+    if rl.IsKeyPressed(rl.KeySpace) {
+        g.Shoot()
+    }
+}
+
+func (g *Game) Shoot() {
+    // Create the new bullet at the front point of the ship 
+    // Front point is at the 2 index of the Points array
+    b := NewBullet(g.Ship.TransformPoint(2), g.Ship.Dir)
+    g.Bullets = append(g.Bullets, b)
 }
