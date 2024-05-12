@@ -148,5 +148,16 @@ func (s *Ship) TransformPoint(i int) rl.Vector2 {
     return result
 }
 
-
+func (s *Ship) GetLines() []Line {
+    // Create the lines for the ship, but do not include the fire
+    shipLineLength := len(s.Points) - 3
+    lines := make([]Line, shipLineLength)
+    for i := 0; i < shipLineLength; i++ {
+        lines[i] = Line{
+            Start: s.TransformPoint(i),
+            End: s.TransformPoint((i + 1) % shipLineLength),
+        }
+    }
+    return lines
+}
 

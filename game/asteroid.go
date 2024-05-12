@@ -61,9 +61,9 @@ func NewAsteroid(size Size) *Asteroid {
     // Set the radius of the asteroid based on the size
     var rad float32
     if size == Large {
-        rad = float32(rl.GetRandomValue(10, 15))
+        rad = float32(rl.GetRandomValue(13, 16))
     } else {
-        rad = float32(rl.GetRandomValue(3, 6))
+        rad = float32(rl.GetRandomValue(6, 9))
     }
 
     // Set the points of the asteroid
@@ -91,6 +91,12 @@ func NewAsteroid(size Size) *Asteroid {
         Rotation: rotation,
         RotationSpeed: rotationSpeed,
     }
+}
+
+func NewAsteroidPos(S Size, pos rl.Vector2) *Asteroid {
+    a := NewAsteroid(S)
+    a.Position = pos
+    return a
 }
 
 func (a *Asteroid) Update() {
@@ -134,7 +140,16 @@ func (a *Asteroid) TransformPoint(i int) rl.Vector2 {
     return result
 }
 
-
+func (a *Asteroid) GetLines() []Line {
+    lines := make([]Line, ASTEROID_POINTS)
+    for i := 0; i < ASTEROID_POINTS; i++ {
+        lines[i] = Line{
+            Start: a.TransformPoint(i),
+            End: a.TransformPoint((i + 1) % ASTEROID_POINTS),
+        }
+    }
+    return lines
+}
 
 
 

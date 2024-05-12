@@ -23,8 +23,8 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.Black)
-        ui.Update(g) // UI relies on game variables
         g.Update()
+        ui.Update(g) // UI relies on game variables
         
 		rl.EndDrawing()
 	}
