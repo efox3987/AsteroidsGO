@@ -7,24 +7,40 @@ import (
     . "asteroids/state"
 )
 
+const STARTING_ASTEROIDS = 3
+const CREATE_ASTEROID_TIME = 1
+const STARTING_ASTEROID_CAP = 5
+const ASTEROID_CAP_TIME = 7
+
 type Game struct {
     State State
     Ship *Ship
     Bullets []*Bullet
-    //Asteroids []*Asteroid
+    Asteroids []*Asteroid
     Score int 
     Time float32
+    AsteroidTimer float32
+    AsteroidCap int
+    AsteroidCapTimer float32
 }
 
 // NewGame creates a new Game object with default values
 func NewGame() *Game {
+    asteroids := []*Asteroid{}
+    for i := 0; i < STARTING_ASTEROIDS; i++ {
+        asteroids = append(asteroids, NewAsteroid(Large))
+    }
+
     return &Game{
         State: Start,
         Ship: NewShip(),
         Bullets: []*Bullet{},
-        //Asteroids: []*Asteroid{},
+        Asteroids: asteroids,
         Score: 0,
         Time: 0,
+        AsteroidTimer: 0,
+        AsteroidCap: STARTING_ASTEROID_CAP,
+        AsteroidCapTimer: 0,
     }
 }
 
@@ -41,13 +57,19 @@ func (g *Game) Update() {
         break
     case Play:
         g.ProcessInputs()
+
         g.Ship.Update()
+
+        g.ProcessAsteroids()
+
         for _, b := range g.Bullets {
             b.Update()
         }
-        //for _, a := range g.Asteroids {
-        //    a.Update()
-        //}
+
+        for _, a := range g.Asteroids {
+            a.Update()
+        }
+
         //g.checkCollisions()
         //g.checkGameOver()
     case GameOver:
@@ -74,3 +96,26 @@ func (g *Game) Shoot() {
     b := NewBullet(g.Ship.TransformPoint(2), g.Ship.Dir)
     g.Bullets = append(g.Bullets, b)
 }
+
+func (g *Game) ProcessAsteroids() {
+    g.AsteroidTimer += rl.GetFrameTime()
+    if g.AsteroidTimer > CREATE_ASTEROID_TIME {
+        if len(g.Asteroids) < g.AsteroidCap {
+            g.AsteroidTimer = 0
+            g.Asteroids = append(g.Asteroids, NewAsteroid(Large))
+        }
+    }
+
+    g.AsteroidCapTimer += rl.GetFrameTime()
+    if g.AsteroidCapTimer > ASTEROID_CAP_TIME {
+        g.AsteroidCapTimer = 0
+        g.AsteroidCap++
+    }
+}
+
+
+
+
+
+
+ 
