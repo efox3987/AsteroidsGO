@@ -13,6 +13,7 @@ type Ship struct {
     Points [8]rl.Vector2 
     StaticShip bool // If true, the ship will not move
     StaticFire bool // If true, the ship will always show fire
+    NeverFire bool // If true, the ship will never show fire
 }
 
 const SHIP_SCALE = 45 // Graphical scale to transform ship points to world points
@@ -35,6 +36,7 @@ func NewShip() *Ship {
         rl.NewVector2(0.3, 0.4), rl.NewVector2(0.0, 0.8), rl.NewVector2(-0.3, 0.4) },
         StaticShip: false,
         StaticFire: false,
+        NeverFire: false,
     }
 }
 
@@ -71,6 +73,11 @@ func (s *Ship) Frame() {
 
 // Determines if the ship should show fire
 func (s *Ship) ShouldFireShow() {
+    if s.NeverFire {
+        s.ShowFire = false
+        return
+    }
+
     if rl.IsKeyDown(rl.KeyW) || s.StaticFire {
         s.ShowFireTime += rl.GetFrameTime()
         // If the fire time is much larger than the fire interval, reset the fire time
@@ -159,5 +166,11 @@ func (s *Ship) GetLines() []Line {
         }
     }
     return lines
+}
+
+func StaticDraw(s *Ship) {
+    s.StaticShip = true
+    s.StaticFire = false
+    s.Draw()
 }
 

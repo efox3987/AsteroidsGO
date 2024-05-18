@@ -52,6 +52,7 @@ func NewGame() *Game {
     }
 }
 
+// Function to restart the game when the player dies
 func (g *Game) RestartGame() {
     if g.Lives <= 0 {
         g.State = GameOver
@@ -69,6 +70,7 @@ func (g *Game) RestartGame() {
     g.ShootTimer = 0
 }
 
+// Initialize the asteroid slice
 func InitAsteroids() []*Asteroid {    
 asteroids := []*Asteroid{}
     for i := 0; i < STARTING_ASTEROIDS; i++ {
@@ -77,12 +79,13 @@ asteroids := []*Asteroid{}
     return asteroids
 }
 
-// Update updates the game state
+// Process game objects and draw game specific elements
 func (g *Game) Update() {
     g.Time += rl.GetFrameTime()
     if g.State != Play {
         return
     }   
+    
 
     g.ProcessInputs()
     
@@ -97,6 +100,7 @@ func (g *Game) Update() {
     g.checkCollisions()
 }
 
+// Process game inputs, ship movement is handled by the ship object
 func (g *Game) ProcessInputs() {
     g.ShootTimer += rl.GetFrameTime()
     if rl.IsKeyPressed(rl.KeySpace) {
@@ -107,6 +111,7 @@ func (g *Game) ProcessInputs() {
     }
 }
 
+// Process the ship variables and draw the ship
 func (g *Game) ProcessShip() {
      if g.ShipExploding {
         g.ShipExplodeTime += rl.GetFrameTime()
@@ -217,6 +222,7 @@ func (g *Game) RemoveAsteroid(a *Asteroid) {
         if asteroid == a {
             g.Asteroids = append(g.Asteroids[:i], g.Asteroids[i+1:]...)
             if a.AsteroidType == Large {
+                // Insert two new Small asteroids
                 g.Asteroids = append(g.Asteroids, NewAsteroidPos(Small, a.Position))
                 g.Asteroids = append(g.Asteroids, NewAsteroidPos(Small, a.Position))
             }

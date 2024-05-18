@@ -10,14 +10,15 @@ type UI struct {
     background Background
     loading *Loading
     menu *MenuScreen
-    //play *PlayScreen
+    play *PlayScreen
 }
 
-func NewUI() *UI {
+func NewUI(g *Game) *UI {
     return &UI{
         background: NewBackground(),
         loading: NewLoading(),
         menu: NewMenuScreen(),
+        play: NewPlayScreen(g.Lives),
     }
 }
 
@@ -28,7 +29,7 @@ func (ui *UI) Update(g *Game) {
     case Menu:
         ui.menu.Update(&g.State)
     case Play:
-        //ui.play.Update(g)
+        ui.play.Update(g)
     }
 
     // Draw the static elements of the UI

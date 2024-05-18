@@ -17,7 +17,7 @@ func main() {
     g := game.NewGame()
     g.State = state.Start
     
-    ui := ui.NewUI()
+    ui := ui.NewUI(g)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
