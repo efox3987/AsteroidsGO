@@ -23,6 +23,10 @@ func (b *Bullet) Update() {
     b.Draw()
 }
 
+func (b *Bullet) Pause() {
+    b.Draw()
+}
+
 func (b *Bullet) Frame() {
     b.Position = rl.Vector2Add(b.Position, rl.Vector2Scale(b.Velocity, rl.GetFrameTime()))
 }

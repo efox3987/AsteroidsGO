@@ -29,6 +29,10 @@ func (e *ExplosionBox) Update() {
     e.Draw()
 }
 
+func (e *ExplosionBox) Pause() {
+    e.Draw()
+}
+
 func (e *ExplosionBox) Frame() {
     e.ExplosionTime += rl.GetFrameTime()
     e.Position = rl.Vector2Add(e.Position, rl.Vector2Scale(e.Velocity, rl.GetFrameTime()))

@@ -11,7 +11,7 @@ libs:
 
 run:
 	@echo "Running..."
-	@./bin/$(shell basename $(CURDIR))
+	@./bin/asteroids
 
 clean:
 	@echo "Cleaning..."

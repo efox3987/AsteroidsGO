@@ -45,6 +45,10 @@ func (s *Ship) Update() {
     s.Frame()
     s.Draw()
 }
+ 
+func (s *Ship) Pause() {
+    s.Draw()
+}
 
 // Updates the ship variables
 func (s *Ship) Frame() {

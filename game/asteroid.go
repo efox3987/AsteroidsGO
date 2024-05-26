@@ -104,6 +104,10 @@ func (a *Asteroid) Update() {
     a.Draw()
 }
 
+func (a *Asteroid) Pause() {
+    a.Draw()
+}
+
 func (a *Asteroid) Frame() {
     a.Position = rl.Vector2Add(a.Position, rl.Vector2Scale(a.Velocity, rl.GetFrameTime()))
 

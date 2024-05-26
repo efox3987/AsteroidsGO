@@ -13,7 +13,7 @@ const CREATE_ASTEROID_TIME = 1
 const STARTING_ASTEROID_CAP = 5
 const ASTEROID_CAP_TIME = 7
 const SHIP_EXPLODE_TIME = 3
-const SHOOT_COOLDOWN = 0.2
+const SHOOT_COOLDOWN = 0.1
 
 type Game struct {
     State State
@@ -82,22 +82,37 @@ asteroids := []*Asteroid{}
 // Process game objects and draw game specific elements
 func (g *Game) Update() {
     g.Time += rl.GetFrameTime()
-    if g.State != Play {
+    
+    switch g.State {
+    case Play:
+        g.Play()
+    case Pause:
+        g.Pause()
+    default:
         return
-    }   
-    
+    }
+}
 
+func (g *Game) Play() {
     g.ProcessInputs()
-    
     g.ProcessShip()
-
     g.ProcessAsteroids()
-    
     g.ProcessBullets()
-
     g.ProcessExplosions()
-
     g.checkCollisions()
+}
+
+func (g *Game) Pause() {
+    g.Ship.Pause()
+    for _, b := range g.Bullets {
+        b.Pause()
+    }
+    for _, a := range g.Asteroids {
+        a.Pause()
+    }
+    for _, e := range g.Explosion {
+        e.Pause()
+    }
 }
 
 // Process game inputs, ship movement is handled by the ship object
