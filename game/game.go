@@ -143,6 +143,7 @@ func (g *Game) ProcessShip() {
 func (g *Game) ProcessBullets() {
     for _, b := range g.Bullets {
         b.Update()
+        //TODO remove bullets that are off screen
     }
 }
 
@@ -152,7 +153,7 @@ func (g *Game) Shoot() {
     b := NewBullet(g.Ship.TransformPoint(2), g.Ship.Dir)
     g.Bullets = append(g.Bullets, b)
 }
-
+ 
 func (g *Game) ProcessAsteroids() {
     g.AsteroidTimer += rl.GetFrameTime()
     if g.AsteroidTimer > CREATE_ASTEROID_TIME {

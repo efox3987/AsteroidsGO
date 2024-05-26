@@ -12,6 +12,7 @@ type UI struct {
     menu *MenuScreen
     play *PlayScreen
     pause *PauseOverlay
+    gameOver *GameOverScreen
 }
 
 func NewUI(g *Game) *UI {
@@ -21,6 +22,7 @@ func NewUI(g *Game) *UI {
         menu: NewMenuScreen(),
         play: NewPlayScreen(g.Lives),
         pause: NewPauseOverlay(),
+        gameOver: NewGameOverScreen(),
     }
 }
 
@@ -34,6 +36,8 @@ func (ui *UI) Update(g *Game) {
         ui.play.Update(g)
     case Pause:
         ui.pause.Update(&g.State)
+    case GameOver:
+        ui.gameOver.Update(&g.State, g.Score)
     }
 
     // Draw the static elements of the UI

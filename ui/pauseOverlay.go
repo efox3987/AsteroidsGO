@@ -15,14 +15,12 @@ type PauseOverlay struct {
     rect rl.Rectangle
 }
 
-
 func NewPauseOverlay() *PauseOverlay {
     return &PauseOverlay{
         playButton: NewButton(float32(rl.GetScreenWidth()/3), float32(rl.GetScreenHeight()/3*2), 300, 100, "RESUME", 50),
         menuButton: NewButton(float32(rl.GetScreenWidth()/3*2), float32(rl.GetScreenHeight()/3*2), 300, 100, "MENU", 50),
         title: NewTitle(0),
         rect: rl.NewRectangle(padding, padding, float32(rl.GetScreenWidth()) - padding*2, float32(rl.GetScreenHeight()) - padding*2),
-
     }
 }
 
